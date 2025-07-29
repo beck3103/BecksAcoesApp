@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BecksAcoesApp.Views.MyDefaultPage"
+             Title="My Investments"
+             BackgroundColor="#F5F6FA">
+
+    <VerticalStackLayout
+        Padding="30"
+        Spacing="25"
+        VerticalOptions="Center"
+        HorizontalOptions="Center">
+
+        <Image
+            Source="slogan.jpg"
+            HeightRequest="200"
+            HorizontalOptions="Center" />
+
+        <Label
+            Text="Welcome to my APP! Here's where I can watch my investments"
+            FontSize="22"
+            FontAttributes="Bold"
+            TextColor="#512BD4"
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center" />
+
+        <Entry
+            Placeholder="Type something here"
+            WidthRequest="250"
+            BackgroundColor="#FFFFFF"
+            TextColor="#333"
+            Margin="0,10"
+            HorizontalOptions="Center" />
+
+        <Button
+            Text="Submit"
+            BackgroundColor="#512BD4"
+            TextColor="White"
+            CornerRadius="8"
+            WidthRequest="250"
+            HorizontalOptions="Center" />
+    </VerticalStackLayout>
+</ContentPage>
