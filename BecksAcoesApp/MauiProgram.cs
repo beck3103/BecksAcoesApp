@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Infra.Http.HttpClients;
+using Infra.Http.HttpClients.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace BecksAcoesApp
 {
@@ -7,6 +9,12 @@ namespace BecksAcoesApp
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
+
+            builder.Services.AddHttpClient<IBeckAcoesApiClient, BecksAcoesApiClient>("BecksApi", client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:7240/");
+            });
+
             builder
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
@@ -16,7 +24,7 @@ namespace BecksAcoesApp
                 });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();

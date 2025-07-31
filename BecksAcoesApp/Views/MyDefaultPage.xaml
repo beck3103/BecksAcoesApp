@@ -25,7 +25,8 @@
             HorizontalTextAlignment="Center" />
 
         <Entry
-            Placeholder="Type something here"
+            x:Name="IbovespaTicket"
+            Placeholder="Type your Ibovespa Ticket"
             WidthRequest="250"
             BackgroundColor="#FFFFFF"
             TextColor="#333"
@@ -33,11 +34,12 @@
             HorizontalOptions="Center" />
 
         <Button
-            Text="Submit"
+            Text="Search"
             BackgroundColor="#512BD4"
             TextColor="White"
             CornerRadius="8"
             WidthRequest="250"
-            HorizontalOptions="Center" />
+            HorizontalOptions="Center"
+            Clicked="OnButtonClicked" />
     </VerticalStackLayout>
 </ContentPage>

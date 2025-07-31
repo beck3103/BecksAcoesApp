@@ -1,14 +1,33 @@
+using Infra.Http.HttpClients.Interfaces;
+
 namespace BecksAcoesApp.Views;
 
 public partial class MyDefaultPage : ContentPage
 {
-	public MyDefaultPage()
+    private readonly IBeckAcoesApiClient _httpClient;
+    public MyDefaultPage(IBeckAcoesApiClient beckAcoesApiClient)
 	{
 		InitializeComponent();
+        _httpClient = beckAcoesApiClient;
         if (DeviceInfo.Platform == DevicePlatform.Android || DeviceInfo.Platform == DevicePlatform.iOS)
         {
             // Example: Change padding for mobile
             this.Padding = new Thickness(10, 40, 10, 10);
         }
+    }
+
+    private void OnButtonClicked(object sender, EventArgs e)
+    {
+        string token = _httpClient.GetBearerToken("your_username", "your_password").Result;
+
+        if (string.IsNullOrWhiteSpace(token))        
+            DisplayAlert("Error", "Token invalid", "OK");
+
+        var ticket = IbovespaTicket.Text;
+
+        if (string.IsNullOrWhiteSpace(ticket))
+            DisplayAlert("Error", "Ticket invalid", "OK");
+
+        var result = _httpClient.GetFundamentusDataAsync(ticket, token).Result;
     }
 }
