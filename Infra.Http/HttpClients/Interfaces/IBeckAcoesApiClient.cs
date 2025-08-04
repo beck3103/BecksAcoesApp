@@ -6,5 +6,5 @@ public interface IBeckAcoesApiClient
 {
     Task<FundamentusDto> GetFundamentusDataAsync(string ticket, string bearerToken);
 
-    Task<string> GetBearerToken(string userName, string password);
+    Task<TokenResponseDto> GetBearerToken(string userName, string password);
 }

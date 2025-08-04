@@ -1,13 +1,16 @@
+using Infra.Http.Dtos;
 using Infra.Http.HttpClients.Interfaces;
+using System.Text.Json;
 
 namespace BecksAcoesApp.Views;
 
 public partial class MyDefaultPage : ContentPage
 {
     private readonly IBeckAcoesApiClient _httpClient;
+
     public MyDefaultPage(IBeckAcoesApiClient beckAcoesApiClient)
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         _httpClient = beckAcoesApiClient;
         if (DeviceInfo.Platform == DevicePlatform.Android || DeviceInfo.Platform == DevicePlatform.iOS)
         {
@@ -16,18 +19,30 @@ public partial class MyDefaultPage : ContentPage
         }
     }
 
-    private void OnButtonClicked(object sender, EventArgs e)
+    private async void OnButtonClicked(object sender, EventArgs e)
     {
-        string token = _httpClient.GetBearerToken("your_username", "your_password").Result;
+        var responseToken = await _httpClient.GetBearerToken("your_username", "your_password");
 
-        if (string.IsNullOrWhiteSpace(token))        
-            DisplayAlert("Error", "Token invalid", "OK");
+        if (responseToken is null)
+        {
+            await DisplayAlert("Error", "Token invalid", "OK");
+            return;
+        }
 
         var ticket = IbovespaTicket.Text;
 
         if (string.IsNullOrWhiteSpace(ticket))
-            DisplayAlert("Error", "Ticket invalid", "OK");
+        {
+            await DisplayAlert("Error", "Ticket invalid", "OK");
+            return;
+        }
 
-        var result = _httpClient.GetFundamentusDataAsync(ticket, token).Result;
+        var result = await _httpClient.GetFundamentusDataAsync(ticket, responseToken.token);
+
+        if (result == null)
+        {
+            await DisplayAlert("Error", "Failed to retrieve data", "OK");
+            return;
+        }
     }
 }

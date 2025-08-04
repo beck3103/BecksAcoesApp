@@ -12,7 +12,7 @@ namespace BecksAcoesApp
 
             builder.Services.AddHttpClient<IBeckAcoesApiClient, BecksAcoesApiClient>("BecksApi", client =>
             {
-                client.BaseAddress = new Uri("https://localhost:7240/");
+                client.BaseAddress = new Uri("https://localhost:20121/api/");
             });
 
             builder
