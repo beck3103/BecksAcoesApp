@@ -44,5 +44,7 @@ public partial class MyDefaultPage : ContentPage
             await DisplayAlert("Error", "Failed to retrieve data", "OK");
             return;
         }
+
+        await Shell.Current.Navigation.PushAsync(new FundamentusDetailsPage(result));
     }
 }

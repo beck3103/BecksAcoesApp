@@ -19,10 +19,15 @@ public sealed class BecksAcoesApiClient(HttpClient httpClient) : IBeckAcoesApiCl
         var response = await httpClient.GetAsync(path);
         response.EnsureSuccessStatusCode();
 
-        var dataResponse = await response.Content.ReadAsStringAsync();
-        var dataResponse1 = await response.Content.ReadFromJsonAsync<FundamentusDto>();
+        var dataResponse = await response.Content.ReadFromJsonAsync<FundamentusDto>();
 
-        return dataResponse1 ?? throw new InvalidOperationException("Failed to deserialize the response.");
+        if (dataResponse is null)
+            return new FundamentusDto();
+
+        if (!dataResponse.IsValid())
+            return new FundamentusDto();
+
+        return dataResponse;
     }
 
     public async Task<TokenResponseDto> GetBearerToken(string userName, string password)
