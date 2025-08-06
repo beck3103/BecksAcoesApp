@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Infra.Http.Dtos;
+namespace BeckAcoesApp.Application.Dtos;
 
 public sealed class TokenResponseDto
 {

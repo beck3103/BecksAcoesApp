@@ -1,6 +1,4 @@
-using Infra.Http.Dtos;
-using Infra.Http.HttpClients.Interfaces;
-using System.Text.Json;
+using BeckAcoesApp.Application.Interfaces.Http;
 
 namespace BecksAcoesApp.Views;
 
@@ -37,7 +35,7 @@ public partial class MyDefaultPage : ContentPage
             return;
         }
 
-        var result = await _httpClient.GetFundamentusDataAsync(ticket, responseToken.token);
+        var result = await _httpClient.GetFundamentusDataAsync(ticket, responseToken.Token);
 
         if (result == null)
         {

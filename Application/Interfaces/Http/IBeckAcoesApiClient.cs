@@ -1,6 +1,6 @@
-﻿using Infra.Http.Dtos;
+﻿using BeckAcoesApp.Application.Dtos;
 
-namespace Infra.Http.HttpClients.Interfaces;
+namespace BeckAcoesApp.Application.Interfaces.Http;
 
 public interface IBeckAcoesApiClient
 {

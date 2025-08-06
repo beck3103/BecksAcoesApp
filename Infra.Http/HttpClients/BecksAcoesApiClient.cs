@@ -1,5 +1,5 @@
-﻿using Infra.Http.Dtos;
-using Infra.Http.HttpClients.Interfaces;
+﻿using BeckAcoesApp.Application.Dtos;
+using BeckAcoesApp.Application.Interfaces.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
