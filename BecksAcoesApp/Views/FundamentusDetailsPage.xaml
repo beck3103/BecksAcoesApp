@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModel="clr-namespace:BecksAcoesApp.ViewModels"
+             xmlns:local="clr-namespace:BecksAcoesApp.Views"
+             x:DataType="viewModel:FundamentusDetailsViewModel"
+             x:Class="BecksAcoesApp.Views.FundamentusDetailsPage"
+             Title="FundamentusDetailsPage">
+    <VerticalStackLayout Spacing="10" Padding="20" VerticalOptions="Center" HorizontalOptions="Center">
+
+        <!-- Displaying the "Ticket" field in a form layout. -->
+        <HorizontalStackLayout Spacing="10">
+            <Label Text="Ticket:"
+                   FontAttributes="Bold"
+                   VerticalOptions="Center" />
+            <Entry Text="{Binding Papel}"
+                   IsEnabled="False" />
+        </HorizontalStackLayout>
+
+        <!-- Displaying the "Cotação Atual" field in a form layout. -->
+        <HorizontalStackLayout Spacing="10">
+            <Label Text="Cotação Atual:"
+                   FontAttributes="Bold"
+                   VerticalOptions="Center" />
+            <Entry Text="{Binding CotacaoAtual}"
+                   IsEnabled="False" />
+        </HorizontalStackLayout>
+
+        <!-- Displaying the "Dividend Yield" field in a form layout. -->
+        <HorizontalStackLayout Spacing="10">
+            <Label Text="Dividend Yield:"
+                   FontAttributes="Bold"
+                   VerticalOptions="Center" />
+            <Entry Text="{Binding DividendYield}"
+                   IsEnabled="False" />
+        </HorizontalStackLayout>
+
+    </VerticalStackLayout>
+</ContentPage>
