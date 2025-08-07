@@ -1,4 +1,5 @@
 using BeckAcoesApp.Application.Interfaces.Services;
+using BecksAcoesApp.Converters;
 
 namespace BecksAcoesApp.Views;
 
@@ -44,6 +45,7 @@ public partial class MyDefaultPage : ContentPage
             return;
         }
 
-        //await Shell.Current.Navigation.PushAsync(new FundamentusDetailsPage(result));
+        var viewModel = result.ToFundamentusDetailsViewModel();
+        await Shell.Current.Navigation.PushAsync(new FundamentusDetailsPage(viewModel));
     }
 }
