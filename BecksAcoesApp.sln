@@ -11,6 +11,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeckAcoesApp.Application", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra", "Infra\Infra.csproj", "{D207B99B-1968-48F9-8404-22FB1157ED09}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - App", "1 - App", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Application", "2 - Application", "{2FF46611-A896-41BA-8D01-64ABF06C9E69}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Infra", "3 - Infra", "{8846B4D1-2213-4F83-955B-4C9E6886604A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +43,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AA179248-23AF-4B01-8628-9F4A3A730BB4} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{7FB3F912-11B0-4FB0-BADD-E32B6BD0824C} = {8846B4D1-2213-4F83-955B-4C9E6886604A}
+		{DFC71FF0-0EAD-4CFE-8B95-8C1AD4D079DD} = {2FF46611-A896-41BA-8D01-64ABF06C9E69}
+		{D207B99B-1968-48F9-8404-22FB1157ED09} = {8846B4D1-2213-4F83-955B-4C9E6886604A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B78EF151-6406-4B4F-82F0-AC28C9AEED0B}
