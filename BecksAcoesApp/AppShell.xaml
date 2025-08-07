@@ -10,8 +10,4 @@
     <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate views:MyDefaultPage}" />
-
-    <ShellContent
-        Title="Fundamentus Details"
-        ContentTemplate="{DataTemplate views:FundamentusDetailsPage}" />
 </Shell>

@@ -1,15 +1,16 @@
-using BeckAcoesApp.Application.Interfaces.Http;
+using BeckAcoesApp.Application.Interfaces.Services;
 
 namespace BecksAcoesApp.Views;
 
 public partial class MyDefaultPage : ContentPage
 {
-    private readonly IBeckAcoesApiClient _httpClient;
+    private readonly IFundamentusAppService _fundamentusAppService;
 
-    public MyDefaultPage(IBeckAcoesApiClient beckAcoesApiClient)
+    public MyDefaultPage(IFundamentusAppService fundamentusAppService)
     {
         InitializeComponent();
-        _httpClient = beckAcoesApiClient;
+        _fundamentusAppService = fundamentusAppService;
+
         if (DeviceInfo.Platform == DevicePlatform.Android || DeviceInfo.Platform == DevicePlatform.iOS)
         {
             // Example: Change padding for mobile
@@ -19,7 +20,7 @@ public partial class MyDefaultPage : ContentPage
 
     private async void OnButtonClicked(object sender, EventArgs e)
     {
-        var responseToken = await _httpClient.GetBearerToken("your_username", "your_password");
+        var responseToken = await _fundamentusAppService.GetBearerToken("your_username", "your_password");
 
         if (responseToken is null)
         {
@@ -35,7 +36,7 @@ public partial class MyDefaultPage : ContentPage
             return;
         }
 
-        var result = await _httpClient.GetFundamentusDataAsync(ticket, responseToken.Token);
+        var result = await _fundamentusAppService.GetFundamentusDataAsync(ticket, responseToken.Token);
 
         if (result == null)
         {
@@ -43,6 +44,6 @@ public partial class MyDefaultPage : ContentPage
             return;
         }
 
-        await Shell.Current.Navigation.PushAsync(new FundamentusDetailsPage(result));
+        //await Shell.Current.Navigation.PushAsync(new FundamentusDetailsPage(result));
     }
 }

@@ -1,9 +1,0 @@
-﻿using System.Text.Json.Serialization;
-
-namespace Infra.Http.Dtos;
-
-public sealed class TokenResponseDto
-{
-    [JsonPropertyName("token")]
-    public string Token { get; set; } = string.Empty;
-}

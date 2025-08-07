@@ -9,7 +9,7 @@ namespace BecksAcoesApp
         {
             var builder = MauiApp.CreateBuilder();
 
-            builder.Services.AddBeckAcoesApiClient();
+            builder.Services.RegisterServices();
             builder
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>

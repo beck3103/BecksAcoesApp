@@ -65,9 +65,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Views\FundamentusDetailsPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Views\MyDefaultPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
