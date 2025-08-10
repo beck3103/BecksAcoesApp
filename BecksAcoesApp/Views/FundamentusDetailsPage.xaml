@@ -8,32 +8,15 @@
              Title="FundamentusDetailsPage">
     <VerticalStackLayout Spacing="10" Padding="20" VerticalOptions="Center" HorizontalOptions="Center">
 
-        <!-- Displaying the "Ticket" field in a form layout. -->
-        <HorizontalStackLayout Spacing="10">
-            <Label Text="Ticket:"
-                   FontAttributes="Bold"
-                   VerticalOptions="Center" />
-            <Entry Text="{Binding Papel}"
-                   IsEnabled="False" />
-        </HorizontalStackLayout>
+        <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto, Auto" ColumnSpacing="10" RowSpacing="10">
+            <Label Grid.Row="0" Grid.Column="0" Text="Ticket:" Style="{StaticResource LabelTitle}" />
+            <Label Grid.Row="0" Grid.Column="1" Text="{Binding Papel}" Style="{StaticResource LabelValue}" />
 
-        <!-- Displaying the "Cotação Atual" field in a form layout. -->
-        <HorizontalStackLayout Spacing="10">
-            <Label Text="Cotação Atual:"
-                   FontAttributes="Bold"
-                   VerticalOptions="Center" />
-            <Entry Text="{Binding CotacaoAtual}"
-                   IsEnabled="False" />
-        </HorizontalStackLayout>
+            <Label Grid.Row="1" Grid.Column="0" Text="Cotação Atual:" Style="{StaticResource LabelTitle}" />
+            <Label Grid.Row="1" Grid.Column="1" Text="{Binding CotacaoAtual}" Style="{StaticResource LabelValue}" />
 
-        <!-- Displaying the "Dividend Yield" field in a form layout. -->
-        <HorizontalStackLayout Spacing="10">
-            <Label Text="Dividend Yield:"
-                   FontAttributes="Bold"
-                   VerticalOptions="Center" />
-            <Entry Text="{Binding DividendYield}"
-                   IsEnabled="False" />
-        </HorizontalStackLayout>
-
+            <Label Grid.Row="2" Grid.Column="0" Text="Dividend Yield:" Style="{StaticResource LabelTitle}" />
+            <Label Grid.Row="2" Grid.Column="1" Text="{Binding DividendYield}" Style="{StaticResource LabelValue}" />
+        </Grid>
     </VerticalStackLayout>
 </ContentPage>

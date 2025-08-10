@@ -21,6 +21,15 @@ public partial class MyDefaultPage : ContentPage
 
     private async void OnButtonClicked(object sender, EventArgs e)
     {
+        var ticket = IbovespaTicket.Text;
+
+        if (string.IsNullOrWhiteSpace(ticket))
+        {
+            await DisplayAlert("Error", "Ticket invalid", "OK");
+            return;
+        }
+
+        // Retrieve the bearer token using your credentials
         var responseToken = await _fundamentusAppService.GetBearerToken("your_username", "your_password");
 
         if (responseToken is null)
@@ -29,13 +38,6 @@ public partial class MyDefaultPage : ContentPage
             return;
         }
 
-        var ticket = IbovespaTicket.Text;
-
-        if (string.IsNullOrWhiteSpace(ticket))
-        {
-            await DisplayAlert("Error", "Ticket invalid", "OK");
-            return;
-        }
 
         var result = await _fundamentusAppService.GetFundamentusDataAsync(ticket, responseToken.Token);
 
