@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:BecksAcoesApp.Views"
     xmlns:local="clr-namespace:BecksAcoesApp"
+    BackgroundColor="DarkGray"
     Title="BecksAcoesApp">
 
     <ShellContent

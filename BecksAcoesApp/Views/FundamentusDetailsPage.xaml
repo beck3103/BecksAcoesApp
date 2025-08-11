@@ -2,38 +2,80 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModel="clr-namespace:BecksAcoesApp.ViewModels"
-             xmlns:local="clr-namespace:BecksAcoesApp.Views"
              x:DataType="viewModel:FundamentusDetailsViewModel"
              x:Class="BecksAcoesApp.Views.FundamentusDetailsPage"
-             Title="FundamentusDetailsPage">
-    <VerticalStackLayout Spacing="10" Padding="20" VerticalOptions="Center" HorizontalOptions="Center">
+             Title="Detalhes da Ação"
+             BackgroundColor="#1E1E1E">
 
-        <!-- Displaying the "Ticket" field in a form layout. -->
-        <HorizontalStackLayout Spacing="10">
-            <Label Text="Ticket:"
-                   FontAttributes="Bold"
-                   VerticalOptions="Center" />
-            <Entry Text="{Binding Papel}"
-                   IsEnabled="False" />
-        </HorizontalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="15">
 
-        <!-- Displaying the "Cotação Atual" field in a form layout. -->
-        <HorizontalStackLayout Spacing="10">
-            <Label Text="Cotação Atual:"
-                   FontAttributes="Bold"
-                   VerticalOptions="Center" />
-            <Entry Text="{Binding CotacaoAtual}"
-                   IsEnabled="False" />
-        </HorizontalStackLayout>
+            <Border BackgroundColor="#333333" Padding="15" Margin="0,10,0,0">
+                <VerticalStackLayout>
+                    <Label Text="{Binding Papel}" FontSize="32" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="White" />
+                    <Label Text="{Binding CotacaoAtual, StringFormat='Cotação Atual: R$ {0:N2}'}" FontSize="20" HorizontalTextAlignment="Center" TextColor="#A9A9A9" />
+                </VerticalStackLayout>
+            </Border>
 
-        <!-- Displaying the "Dividend Yield" field in a form layout. -->
-        <HorizontalStackLayout Spacing="10">
-            <Label Text="Dividend Yield:"
-                   FontAttributes="Bold"
-                   VerticalOptions="Center" />
-            <Entry Text="{Binding DividendYield}"
-                   IsEnabled="False" />
-        </HorizontalStackLayout>
+            <Border BackgroundColor="#2A2A2A"  Padding="15">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Indicadores de Preço" FontSize="20" FontAttributes="Bold" TextColor="White" />
+                    <BoxView HeightRequest="1" Color="#444444" />
 
-    </VerticalStackLayout>
+                    <Grid ColumnDefinitions="*, *" ColumnSpacing="10" RowDefinitions="Auto, Auto, Auto">
+                        <Label Grid.Column="0" Text="Preço sobre lucro (P/L):" TextColor="#A9A9A9" />
+                        <Label Grid.Column="1" Text="{Binding PrecoSobreLucro}" HorizontalTextAlignment="End" TextColor="White" />
+
+                        <Label Grid.Column="0" Text="Preço sobre valor patrimonial (P/VP):" Grid.Row="1" TextColor="#A9A9A9" />
+                        <Label Grid.Column="1" Text="{Binding PrecoSobreValorPatrimonial}" HorizontalTextAlignment="End" Grid.Row="1" TextColor="White" />
+
+                        <Label Grid.Column="0" Text="Preço sobre receita (PSR):" Grid.Row="2" TextColor="#A9A9A9" />
+                        <Label Grid.Column="1" Text="{Binding PrecoSobreReceita}" HorizontalTextAlignment="End" Grid.Row="2" TextColor="White" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border BackgroundColor="#2A2A2A"  Padding="15">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Rentabilidade e Eficiência" FontSize="20" FontAttributes="Bold" TextColor="White" />
+                    <BoxView HeightRequest="1" Color="#444444" />
+
+                    <Grid ColumnDefinitions="*, *" ColumnSpacing="10" RowDefinitions="Auto, Auto, Auto, Auto, Auto">
+                        <Label Grid.Column="0" Text="Dividend Yield:" TextColor="#A9A9A9" />
+                        <Label Grid.Column="1" Text="{Binding DividendYield}" HorizontalTextAlignment="End" TextColor="White" />
+
+                        <Label Grid.Column="0" Text="Margem EBIT:" Grid.Row="1" TextColor="#A9A9A9" />
+                        <Label Grid.Column="1" Text="{Binding MargemEbit}" HorizontalTextAlignment="End" Grid.Row="1" TextColor="White" />
+
+                        <Label Grid.Column="0" Text="Margem Líquida:" Grid.Row="2" TextColor="#A9A9A9" />
+                        <Label Grid.Column="1" Text="{Binding MargemLiquida}" HorizontalTextAlignment="End" Grid.Row="2" TextColor="White" />
+
+                        <Label Grid.Column="0" Text="ROIC:" Grid.Row="3" TextColor="#A9A9A9" />
+                        <Label Grid.Column="1" Text="{Binding RetornoSobreCapitalInvestido}" HorizontalTextAlignment="End" Grid.Row="3" TextColor="White" />
+
+                        <Label Grid.Column="0" Text="ROE:" Grid.Row="4" TextColor="#A9A9A9" />
+                        <Label Grid.Column="1" Text="{Binding RetornoSobrePatrimonioLiquido}" HorizontalTextAlignment="End" Grid.Row="4" TextColor="White" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border BackgroundColor="#2A2A2A" Padding="15">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Saúde Financeira" FontSize="20" FontAttributes="Bold" TextColor="White" />
+                    <BoxView HeightRequest="1" Color="#444444" />
+
+                    <Grid ColumnDefinitions="*, *" ColumnSpacing="10" RowDefinitions="Auto, Auto, Auto">
+                        <Label Grid.Column="0" Text="Patrimônio Líquido:" TextColor="#A9A9A9" />
+                        <Label Grid.Column="1" Text="{Binding PatrimonioLiquido}" HorizontalTextAlignment="End" TextColor="White" />
+
+                        <Label Grid.Column="0" Text="Dívida bruta sobre patrimônio:" Grid.Row="1" TextColor="#A9A9A9" />
+                        <Label Grid.Column="1" Text="{Binding DividaBrutaSobrePatrimonio}" HorizontalTextAlignment="End" Grid.Row="1" TextColor="White" />
+
+                        <Label Grid.Column="0" Text="Liquidez Corrente:" Grid.Row="2" TextColor="#A9A9A9" />
+                        <Label Grid.Column="1" Text="{Binding LiquidezCorrente}" HorizontalTextAlignment="End" Grid.Row="2" TextColor="White" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
