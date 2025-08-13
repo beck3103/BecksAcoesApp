@@ -29,17 +29,7 @@ public partial class MyDefaultPage : ContentPage
             return;
         }
 
-        // Retrieve the bearer token using your credentials
-        var responseToken = await _fundamentusAppService.GetBearerToken("your_username", "your_password");
-
-        if (responseToken is null)
-        {
-            await DisplayAlert("Error", "Token invalid", "OK");
-            return;
-        }
-
-
-        var result = await _fundamentusAppService.GetFundamentusDataAsync(ticket, responseToken.Token);
+        var result = await _fundamentusAppService.GetFundamentusDataAsync(ticket);
 
         if (result == null)
         {
