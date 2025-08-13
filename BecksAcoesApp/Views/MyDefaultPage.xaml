@@ -15,7 +15,7 @@
                                  VerticalOptions="Center"
                                  HorizontalOptions="Center">
 
-                <Image Source="slogan.jpg"
+                <Image Source="faz_o_l_slogan.png"
                        HeightRequest="150"
                        HorizontalOptions="Center" />
 

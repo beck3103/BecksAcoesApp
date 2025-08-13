@@ -106,4 +106,8 @@ internal sealed class FundamentusDetailsViewModel
     /// Crescimento da Receita nos últimos 5 anos (CAGR - Taxa de Crescimento Anual Composta).
     /// </summary>
     public string CrescimentoReceitaUltimosCincoAnos { get; set; } = string.Empty;
+
+    public decimal PrecoTetoBazin { get; set; } = 0;
+
+    public decimal PrecoJustoGraham { get; set; } = 0;
 }
