@@ -1,16 +1,20 @@
 ﻿using BeckAcoesApp.Application.Dtos;
 using BecksAcoesApp.ViewModels;
+using System.Globalization;
 
 namespace BecksAcoesApp.Converters;
 
 internal static class ApplicationDtoToViewModel
 {
-    internal static FundamentusDetailsViewModel ToFundamentusDetailsViewModel(this FundamentusDto fundamentusDto)
+    internal static FundamentusDetailsViewModel ToFundamentusDetailsViewModel(this FundamentusDto fundamentusDto, decimal precoJusto, decimal precoTeto)
     {
+        string value = fundamentusDto.Cotacao;
+        string normalizedValue = value.Replace(',', '.');
+
         return new FundamentusDetailsViewModel
         {
             Papel = fundamentusDto.Papel,
-            CotacaoAtual = decimal.TryParse(fundamentusDto.Cotacao, out var cotacao) ? cotacao : 0,
+            CotacaoAtual = decimal.TryParse(normalizedValue, CultureInfo.InvariantCulture, out var cotacao) ? cotacao : 0,
             DividendYield = fundamentusDto.DivYield,
             PrecoSobreLucro = fundamentusDto.Pl,
             PrecoSobreValorPatrimonial = fundamentusDto.Pvp,
@@ -28,7 +32,9 @@ internal static class ApplicationDtoToViewModel
             LiquidezMediaDoisMeses = fundamentusDto.Liq2Meses,
             PatrimonioLiquido = fundamentusDto.PatrimLiq,
             DividaBrutaSobrePatrimonio = fundamentusDto.DivBrutPatrim,
-            CrescimentoReceitaUltimosCincoAnos = fundamentusDto.CrescRec5a
+            CrescimentoReceitaUltimosCincoAnos = fundamentusDto.CrescRec5a,
+            PrecoTetoBazin = precoTeto,
+            PrecoJustoGraham = precoJusto
         };
     }
 }

@@ -37,6 +37,8 @@ public partial class MyDefaultPage : ContentPage
             return;
         }
 
+
+
         var viewModel = result.ToFundamentusDetailsViewModel();
         await Shell.Current.Navigation.PushAsync(new FundamentusDetailsPage(viewModel));
     }
