@@ -1,5 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using BeckAcoesApp.Application.Interfaces.Http;
 using Infra;
+using Infra.Http.HttpClients;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace BecksAcoesApp
 {
@@ -10,6 +13,12 @@ namespace BecksAcoesApp
             var builder = MauiApp.CreateBuilder();
 
             builder.Services.RegisterServices();
+
+            builder.Services.AddHttpClient<IFundamentusHttpClient, FundamentusHttpClient>("FundamentusClient", client =>
+            {
+                client.BaseAddress = new Uri("https://www.fundamentus.com.br");
+            });
+
             builder
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>

@@ -1,30 +1,72 @@
 ﻿using BeckAcoesApp.Application.Dtos;
 using BeckAcoesApp.Application.Interfaces.Http;
 using BeckAcoesApp.Application.Interfaces.Services;
+using BeckAcoesApp.Application.Mappers;
+using HtmlAgilityPack;
 
 namespace BeckAcoesApp.Application.Services;
 
-public sealed class FundamentusAppService(IBeckAcoesApiClient beckAcoesApiClient) : IFundamentusAppService
+public sealed class FundamentusAppService(IFundamentusHttpClient fundamentusHttpClient) : IFundamentusAppService
 {
-    public async Task<FundamentusDto?> GetFundamentusDataAsync(string ticket, string bearerToken)
+    // Example method to get data from Fundamentus
+    public async Task<FundamentusDto?> GetFundamentusDataAsync(string ticket)
     {
-        var result = await beckAcoesApiClient.GetFundamentusDataAsync(ticket, bearerToken);
+        //I'm getting the HTML because the API doesn't allow me to get the data directly in JSON format.
+        var resultHTML = await fundamentusHttpClient.GetFundamentusDataAsync(ticket);
 
-        if (result == null)
-        {
-            return null;//Mensagem de erro
-        }
+        HtmlDocument page = new();
+        page.LoadHtml(resultHTML);
+
+        //Here i'll manipulate the html response
+        var table = GetFundamentusTableAsync(page, ticket);
+
+        if (table.Count < 0)
+            return null;
+
+        var result = table.MapToFundamentusDto();
 
         return result;
     }
 
-    public async Task<TokenResponseDto?> GetBearerToken(string userName, string password)
+    private static Dictionary<string, string> GetFundamentusTableAsync(HtmlDocument page, string ticket)
     {
-        var result = await beckAcoesApiClient.GetBearerToken(userName, password);
-        if (result == null)
+        if (page == null)
+            throw new ArgumentNullException(nameof(page), "HTML document cannot be null.");
+
+        // Find the table by id
+        var tableNode = page.DocumentNode.SelectSingleNode("//table[@id='resultado']");
+        if (tableNode == null)
+            return [];
+
+        // Get headers
+        var headerNodes = tableNode.SelectNodes(".//thead/tr/th");
+        var headers = headerNodes?.Select(h => h.InnerText.Trim()).ToList() ?? [];
+
+        // Get rows
+        var rowNodes = tableNode.SelectNodes(".//tbody/tr");
+        var tableData = new List<Dictionary<string, string>>();
+
+        if (rowNodes != null)
         {
-            return null; //Mensagem de erro
+            foreach (var row in rowNodes)
+            {
+                var cellNodes = row.SelectNodes("td");
+                if (cellNodes == null || cellNodes.Count == 0) continue;
+
+                // Check if the first cell contains an <a> tag with the ticket text
+                var aTag = cellNodes[0].SelectSingleNode(".//a");
+                if (aTag != null && aTag.InnerText.Trim().Equals(ticket, StringComparison.OrdinalIgnoreCase))
+                {
+                    var rowDict = new Dictionary<string, string>();
+                    for (int i = 0; i < cellNodes.Count && i < headers.Count; i++)
+                    {
+                        rowDict[headers[i]] = cellNodes[i].InnerText.Trim();
+                    }
+                    return rowDict;
+                }
+            }
         }
-        return result;
+
+        return [];
     }
 }
