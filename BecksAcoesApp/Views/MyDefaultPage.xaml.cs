@@ -37,9 +37,10 @@ public partial class MyDefaultPage : ContentPage
             return;
         }
 
+        decimal precoJusto = _fundamentusAppService.CalcularPrecoJusto(result.Pl, result.CrescRec5a, result.Cotacao);
+        decimal precoTeto = _fundamentusAppService.CalcularPrecoTeto(result.Cotacao, result.DivYield);
 
-
-        var viewModel = result.ToFundamentusDetailsViewModel();
+        var viewModel = result.ToFundamentusDetailsViewModel(precoJusto, precoTeto);
         await Shell.Current.Navigation.PushAsync(new FundamentusDetailsPage(viewModel));
     }
 }

@@ -73,29 +73,36 @@ public sealed class FundamentusAppService(IFundamentusHttpClient fundamentusHttp
 
     public decimal CalcularPrecoTeto(string cotacao, string dividendYield)
     {
-        if (!decimal.TryParse(dividendYield, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal decimalDividendYield))
+        string dividendYieldSemPorcentagem = dividendYield.Replace("%", string.Empty).Replace(",", ".").Trim();
+        string cotacaoSemVirgula = cotacao.Replace(',', '.').Trim();
+
+        if (!decimal.TryParse(dividendYieldSemPorcentagem, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal decimalDividendYield))
             return 0;
 
-        if (!decimal.TryParse(cotacao, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal decimalCotacao))
+        if (!decimal.TryParse(cotacaoSemVirgula, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal decimalCotacao))
             return 0;
 
-        decimal dividendoPorAcao = decimalCotacao * decimalDividendYield;
+        decimal dividendoPorAcao = decimalCotacao * (decimalDividendYield / 100m);
 
         if (dividendoPorAcao <= 0)
             return 0.0m;
 
-        return dividendoPorAcao / 0.06m; //Preço teto de Bazin é o dividendo por ação dividido por 6% (0.06)
+        return Math.Round(dividendoPorAcao / 0.06m, 2); //Preço teto de Bazin é o dividendo por ação dividido por 6% (0.06)
     }
 
     public decimal CalcularPrecoJusto(string precoSobreLucro, string crescimentoReceitaUltimosCincoAnos, string cotacao)
     {
-        if (!decimal.TryParse(precoSobreLucro, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal decimalPrecoSobreLucro))
+        string precoSobreLucroSemPorcentagem = precoSobreLucro.Replace("%", string.Empty).Replace(",", ".").Trim();
+        string crescimentoReceitaUltimosCincoAnosSemPorcentagem = crescimentoReceitaUltimosCincoAnos.Replace("%", string.Empty).Replace(",", ".").Trim();
+        string cotacaoSemVirgula = cotacao.Replace(',', '.').Trim();
+
+        if (!decimal.TryParse(precoSobreLucroSemPorcentagem, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal decimalPrecoSobreLucro))
             return 0;
 
-        if (!decimal.TryParse(crescimentoReceitaUltimosCincoAnos, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal decimalCrescimentoReceitaUltimosCincoAnos))
+        if (!decimal.TryParse(crescimentoReceitaUltimosCincoAnosSemPorcentagem, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal decimalCrescimentoReceitaUltimosCincoAnos))
             return 0;
 
-        if (!decimal.TryParse(cotacao, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal decimalCotacao))
+        if (!decimal.TryParse(cotacaoSemVirgula, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal decimalCotacao))
             return 0;
 
         // O preço sobre o lucro (P/L) não pode ser zero
@@ -108,8 +115,8 @@ public sealed class FundamentusAppService(IFundamentusHttpClient fundamentusHttp
         // A fórmula de Graham usa a taxa de crescimento anual. O seu objeto tem o crescimento da receita.
         // Aqui, usamos essa propriedade como a "taxa de crescimento".
         // A fórmula usa um multiplicador de 7 e um fator de segurança de 1.5.
-        decimal precoJusto = lucroPorAcao * (7m + (decimalCrescimentoReceitaUltimosCincoAnos * 100m)) * 1.5m;
+        decimal precoJusto = lucroPorAcao * (7m + decimalCrescimentoReceitaUltimosCincoAnos) * 1.5m;
 
-        return precoJusto;
+        return Math.Round(precoJusto, 2);
     }
 }
