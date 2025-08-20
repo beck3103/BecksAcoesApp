@@ -76,6 +76,21 @@
                     </Grid>
                 </VerticalStackLayout>
             </Border>
+
+            <Border BackgroundColor="#2A2A2A"  Padding="15">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Análise de preço" FontSize="20" FontAttributes="Bold" TextColor="White" />
+                    <BoxView HeightRequest="1" Color="#444444" />
+
+                    <Grid ColumnDefinitions="*, *" ColumnSpacing="10" RowDefinitions="Auto, Auto, Auto">
+                        <Label Grid.Column="0" Text="Preço Teto" TextColor="#A9A9A9" />
+                        <Label Grid.Column="1" Text="{Binding PrecoTetoBazin}" HorizontalTextAlignment="End" TextColor="White" />
+
+                        <Label Grid.Column="0" Text="Preço Justo" Grid.Row="1" TextColor="#A9A9A9" />
+                        <Label Grid.Column="1" Text="{Binding PrecoJustoGraham}" HorizontalTextAlignment="End" Grid.Row="1" TextColor="White" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
