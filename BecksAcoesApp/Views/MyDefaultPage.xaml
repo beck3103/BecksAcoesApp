@@ -7,22 +7,22 @@
 
     <Grid RowDefinitions="Auto, *, Auto">
         <Border Grid.Row="1"
-               Margin="30,0"
+               Margin="0"
                Padding="25"
-               BackgroundColor="#333333">
+               BackgroundColor="WhiteSmoke">
 
             <VerticalStackLayout Spacing="25"
                                  VerticalOptions="Center"
                                  HorizontalOptions="Center">
 
-                <Image Source="faz_o_l_slogan.png"
+                <Image Source="one_piece_logo.png"
                        HeightRequest="150"
                        HorizontalOptions="Center" />
 
                 <Label Text="Aqui você verifica os detalhes fundamentalistas das suas ações"
                        FontSize="18"
                        FontAttributes="Bold"
-                       TextColor="White"
+                       TextColor="Black"
                        HorizontalTextAlignment="Center" />
 
                 <BoxView HeightRequest="1"
@@ -41,8 +41,8 @@
                        HeightRequest="50" />
 
                 <Button Text="Consultar"
-                        BackgroundColor="#512BD4"
-                        TextColor="White"
+                        BackgroundColor="DarkGrey"
+                        TextColor="Black"
                         CornerRadius="10"
                         WidthRequest="280"
                         HorizontalOptions="Center"
