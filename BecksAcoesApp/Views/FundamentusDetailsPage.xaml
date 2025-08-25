@@ -5,7 +5,7 @@
              x:DataType="viewModel:FundamentusDetailsViewModel"
              x:Class="BecksAcoesApp.Views.FundamentusDetailsPage"
              Title="Detalhes da Ação"
-             BackgroundColor="#1E1E1E">
+             BackgroundColor="WhiteSmoke">
 
     <ScrollView>
         <VerticalStackLayout Spacing="20" Padding="15">
@@ -20,7 +20,7 @@
             <Border BackgroundColor="#2A2A2A"  Padding="15">
                 <VerticalStackLayout Spacing="10">
                     <Label Text="Indicadores de Preço" FontSize="20" FontAttributes="Bold" TextColor="White" />
-                    <BoxView HeightRequest="1" Color="#444444" />
+                    <BoxView HeightRequest="1" Color="LightGreen" />
 
                     <Grid ColumnDefinitions="*, *" ColumnSpacing="10" RowDefinitions="Auto, Auto, Auto">
                         <Label Grid.Column="0" Text="Preço sobre lucro (P/L):" TextColor="#A9A9A9" />
@@ -38,7 +38,7 @@
             <Border BackgroundColor="#2A2A2A"  Padding="15">
                 <VerticalStackLayout Spacing="10">
                     <Label Text="Rentabilidade e Eficiência" FontSize="20" FontAttributes="Bold" TextColor="White" />
-                    <BoxView HeightRequest="1" Color="#444444" />
+                    <BoxView HeightRequest="1" Color="LightGreen" />
 
                     <Grid ColumnDefinitions="*, *" ColumnSpacing="10" RowDefinitions="Auto, Auto, Auto, Auto, Auto">
                         <Label Grid.Column="0" Text="Dividend Yield:" TextColor="#A9A9A9" />
@@ -62,7 +62,7 @@
             <Border BackgroundColor="#2A2A2A" Padding="15">
                 <VerticalStackLayout Spacing="10">
                     <Label Text="Saúde Financeira" FontSize="20" FontAttributes="Bold" TextColor="White" />
-                    <BoxView HeightRequest="1" Color="#444444" />
+                    <BoxView HeightRequest="1" Color="LightGreen" />
 
                     <Grid ColumnDefinitions="*, *" ColumnSpacing="10" RowDefinitions="Auto, Auto, Auto">
                         <Label Grid.Column="0" Text="Patrimônio Líquido:" TextColor="#A9A9A9" />
@@ -80,7 +80,7 @@
             <Border BackgroundColor="#2A2A2A"  Padding="15">
                 <VerticalStackLayout Spacing="10">
                     <Label Text="Análise de preço" FontSize="20" FontAttributes="Bold" TextColor="White" />
-                    <BoxView HeightRequest="1" Color="#444444" />
+                    <BoxView HeightRequest="1" Color="LightGreen" />
 
                     <Grid ColumnDefinitions="*, *" ColumnSpacing="10" RowDefinitions="Auto, Auto, Auto">
                         <Label Grid.Column="0" Text="Preço Teto" TextColor="#A9A9A9" />

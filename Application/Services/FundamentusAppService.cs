@@ -18,6 +18,13 @@ public sealed class FundamentusAppService(IFundamentusHttpClient fundamentusHttp
         HtmlDocument page = new();
         page.LoadHtml(resultHTML);
 
+        var details = GetTableByLabel(page, ticket);//where i can get the name...
+        var marketValue = GetTableByLabel(page, "Valor de mercado");//i can get the market value...
+        var valuation = GetTableByLabel(page, "Indicadores fundamentalistas");//i can get the valuation...
+        var patrimony = GetTableByLabel(page, "Dados Balanço Patrimonial");//i can get the patrimonial values...
+        var profits = GetTableByLabel(page, "Lucro Líquido");//i can get the patrimonial values...
+
+
         //Here i'll manipulate the html response
         var table = GetFundamentusTableAsync(page, ticket);
 
@@ -69,6 +76,68 @@ public sealed class FundamentusAppService(IFundamentusHttpClient fundamentusHttp
         }
 
         return [];
+    }
+
+    private static Dictionary<string, string> GetTableByLabel(HtmlDocument page, string labelToFind)
+    {
+        if (page == null)
+            throw new ArgumentNullException(nameof(page), "HTML document cannot be null.");
+
+        // Select all table nodes with the class "w728"
+        var tableNodes = page.DocumentNode.SelectNodes("//table[@class='w728']");
+
+        if (tableNodes != null)
+        {
+            // Iterate through each table to find the one containing the specified label
+            foreach (var tableNode in tableNodes)
+            {
+                // Look for a <span> tag with the class 'txt' that contains our target label.
+                var labelNode = tableNode.SelectSingleNode($".//span[@class='txt' and text()='{labelToFind}']");
+
+                // If the label is found in this table, we've found our target table.
+                if (labelNode != null)
+                {
+                    var tableData = new Dictionary<string, string>();
+
+                    // Get all the rows within this specific table
+                    var rowNodes = tableNode.SelectNodes(".//tr");
+                    if (rowNodes != null)
+                    {
+                        foreach (var row in rowNodes)
+                        {
+                            // Get all the 'label' and 'data' cells in the row.
+                            // The XPath expression 'td' is safe as it's the only type of cell.
+                            var cells = row.SelectNodes("td");
+
+                            if (cells != null && cells.Count >= 4)
+                            {
+                                // The layout is label/data/label/data.
+                                // We extract the text from the <span> inside each cell.
+
+                                var key1 = cells[0].SelectSingleNode(".//span[@class='txt']")?.InnerText.Trim();
+                                var value1 = cells[1].SelectSingleNode(".//span[@class='txt']")?.InnerText.Trim();
+                                var key2 = cells[2].SelectSingleNode(".//span[@class='txt']")?.InnerText.Trim();
+                                var value2 = cells[3].SelectSingleNode(".//span[@class='txt']")?.InnerText.Trim();
+
+                                // Add the key-value pairs to the dictionary if they exist
+                                if (!string.IsNullOrEmpty(key1) && !string.IsNullOrEmpty(value1))
+                                {
+                                    tableData[key1] = value1;
+                                }
+                                if (!string.IsNullOrEmpty(key2) && !string.IsNullOrEmpty(value2))
+                                {
+                                    tableData[key2] = value2;
+                                }
+                            }
+                        }
+                    }
+                    return tableData;
+                }
+            }
+        }
+
+        // If no table with the specified label was found, return an empty dictionary.
+        return new Dictionary<string, string>();
     }
 
     public decimal CalcularPrecoTeto(string cotacao, string dividendYield)
