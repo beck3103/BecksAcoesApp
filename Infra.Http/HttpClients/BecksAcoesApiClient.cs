@@ -24,8 +24,8 @@ public sealed class BecksAcoesApiClient(HttpClient httpClient) : IBeckAcoesApiCl
         if (dataResponse is null)
             return new FundamentusDto();
 
-        if (!dataResponse.IsValid())
-            return new FundamentusDto();
+        //if (!dataResponse.IsValid())
+        //    return new FundamentusDto();
 
         return dataResponse;
     }
