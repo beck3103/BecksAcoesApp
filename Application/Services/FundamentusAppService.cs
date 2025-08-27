@@ -24,16 +24,16 @@ public sealed class FundamentusAppService(IFundamentusHttpClient fundamentusHttp
         var patrimony = GetTableByLabel(page, "Dados Balanço Patrimonial");//i can get the patrimonial values...
         var profits = GetTableByLabel(page, "Lucro Líquido");//i can get the patrimonial values...
 
+        var allData = details
+            .Concat(marketValue)
+            .Concat(valuation)
+            .Concat(patrimony)
+            .Concat(profits)
+            .ToDictionary(k => k.Key, v => v.Value);
 
-        //Here i'll manipulate the html response
-        var table = GetFundamentusTableAsync(page, ticket);
+        var dto = allData.MapToFundamentusDto();
 
-        if (table.Count < 0)
-            return null;
-
-        var result = table.MapToFundamentusDto();
-
-        return result;
+        return dto;
     }
 
     private static Dictionary<string, string> GetFundamentusTableAsync(HtmlDocument page, string ticket)
