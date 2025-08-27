@@ -19,10 +19,10 @@ public sealed class FundamentusAppService(IFundamentusHttpClient fundamentusHttp
         page.LoadHtml(resultHTML);
 
         var details = GetTableByLabel(page, ticket);//where i can get the name...
-        var marketValue = GetTableByLabel(page, "Valor de mercado");//i can get the market value...
-        var valuation = GetTableByLabel(page, "Indicadores fundamentalistas");//i can get the valuation...
-        var patrimony = GetTableByLabel(page, "Dados Balanço Patrimonial");//i can get the patrimonial values...
-        var profits = GetTableByLabel(page, "Lucro Líquido");//i can get the patrimonial values...
+        var marketValue = GetTableByLabel(page, "Valor de mercado");//It is fixed because i get if from the html label...
+        var valuation = GetTableByLabel(page, "Indicadores fundamentalistas");//It is fixed because i get if from the html label...
+        var patrimony = GetTableByLabel(page, "Dados Balanço Patrimonial");//It is fixed because i get if from the html label...
+        var profits = GetTableByLabel(page, "Lucro Líquido");//It is fixed because i get if from the html label...
 
         var allData = details
             .Concat(marketValue)
@@ -31,51 +31,12 @@ public sealed class FundamentusAppService(IFundamentusHttpClient fundamentusHttp
             .Concat(profits)
             .ToDictionary(k => k.Key, v => v.Value);
 
+        if (allData.Count == 0)
+            return null;
+
         var dto = allData.MapToFundamentusDto();
 
         return dto;
-    }
-
-    private static Dictionary<string, string> GetFundamentusTableAsync(HtmlDocument page, string ticket)
-    {
-        if (page == null)
-            throw new ArgumentNullException(nameof(page), "HTML document cannot be null.");
-
-        // Find the table by id
-        var tableNode = page.DocumentNode.SelectSingleNode("//table[@id='resultado']");
-        if (tableNode == null)
-            return [];
-
-        // Get headers
-        var headerNodes = tableNode.SelectNodes(".//thead/tr/th");
-        var headers = headerNodes?.Select(h => h.InnerText.Trim()).ToList() ?? [];
-
-        // Get rows
-        var rowNodes = tableNode.SelectNodes(".//tbody/tr");
-        var tableData = new List<Dictionary<string, string>>();
-
-        if (rowNodes != null)
-        {
-            foreach (var row in rowNodes)
-            {
-                var cellNodes = row.SelectNodes("td");
-                if (cellNodes == null || cellNodes.Count == 0) continue;
-
-                // Check if the first cell contains an <a> tag with the ticket text
-                var aTag = cellNodes[0].SelectSingleNode(".//a");
-                if (aTag != null && aTag.InnerText.Trim().Equals(ticket, StringComparison.OrdinalIgnoreCase))
-                {
-                    var rowDict = new Dictionary<string, string>();
-                    for (int i = 0; i < cellNodes.Count && i < headers.Count; i++)
-                    {
-                        rowDict[headers[i]] = cellNodes[i].InnerText.Trim();
-                    }
-                    return rowDict;
-                }
-            }
-        }
-
-        return [];
     }
 
     private static Dictionary<string, string> GetTableByLabel(HtmlDocument page, string labelToFind)
@@ -137,7 +98,7 @@ public sealed class FundamentusAppService(IFundamentusHttpClient fundamentusHttp
         }
 
         // If no table with the specified label was found, return an empty dictionary.
-        return new Dictionary<string, string>();
+        return [];
     }
 
     public decimal CalcularPrecoTeto(string cotacao, string dividendYield)
