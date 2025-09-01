@@ -11,11 +11,11 @@ public sealed class FundamentusAppService(IFundamentusHttpClient fundamentusHttp
 {
     public decimal CalculateFairPrice(string netIncome, string shareholdersEquity, string numberOfShares)
     {
-        string netIncomeConverted = netIncome.Replace("%", string.Empty).Replace(",", ".").Trim();
-        string shareholdersEquityConverted = shareholdersEquity.Replace("%", string.Empty).Replace(",", ".").Trim();
-        string numberOfSharesConverted = numberOfShares.Replace(',', '.').Trim();
+        string netIncomeConverted = netIncome.Replace("%", string.Empty).Trim();
+        string shareholdersEquityConverted = shareholdersEquity.Replace("%", string.Empty).Trim();
+        string numberOfSharesConverted = numberOfShares.Trim();
 
-        CultureInfo culture = new CultureInfo("pt-BR");
+        CultureInfo culture = new("pt-BR");
 
         if (decimal.TryParse(netIncomeConverted, NumberStyles.Number, culture, out decimal decimalNetIncome) &&
         decimal.TryParse(shareholdersEquityConverted, NumberStyles.Number, culture, out decimal decimalShareholdersEquity) &&
@@ -33,7 +33,7 @@ public sealed class FundamentusAppService(IFundamentusHttpClient fundamentusHttp
 
     public decimal CalculateMaximumPrice(string dividendYield, string currentPrice)
     {
-        CultureInfo culture = new CultureInfo("pt-BR");
+        CultureInfo culture = new("pt-BR");
 
         string convertedDividendYield = dividendYield.Replace("%", string.Empty).Trim();
         string convertedCotacao = currentPrice.Replace("%", string.Empty).Trim();
