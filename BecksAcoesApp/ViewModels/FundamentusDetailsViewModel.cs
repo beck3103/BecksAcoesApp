@@ -10,7 +10,7 @@ internal sealed class FundamentusDetailsViewModel
     /// <summary>
     /// O valor atual de uma única cota do ativo no mercado.
     /// </summary>
-    public decimal CotacaoAtual { get; set; }
+    public decimal CotacaoAtual { get; set; } = 0;
 
     /// <summary>
     /// Dividend Yield: o rendimento de dividendos pagos nos últimos 12 meses em relação à cotação atual.

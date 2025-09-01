@@ -84,10 +84,10 @@
 
                     <Grid ColumnDefinitions="*, *" ColumnSpacing="10" RowDefinitions="Auto, Auto, Auto">
                         <Label Grid.Column="0" Text="Preço Teto" TextColor="#A9A9A9" />
-                        <Label Grid.Column="1" Text="{Binding PrecoTetoBazin}" HorizontalTextAlignment="End" TextColor="White" />
+                        <Label Grid.Column="1" Text="{Binding PrecoTetoBazin, StringFormat='R$ {0:N2}'}" HorizontalTextAlignment="End" TextColor="White" />
 
                         <Label Grid.Column="0" Text="Preço Justo" Grid.Row="1" TextColor="#A9A9A9" />
-                        <Label Grid.Column="1" Text="{Binding PrecoJustoGraham}" HorizontalTextAlignment="End" Grid.Row="1" TextColor="White" />
+                        <Label Grid.Column="1" Text="{Binding PrecoJustoGraham, StringFormat='R$ {0:N2}'}" HorizontalTextAlignment="End" Grid.Row="1" TextColor="White" />
                     </Grid>
                 </VerticalStackLayout>
             </Border>

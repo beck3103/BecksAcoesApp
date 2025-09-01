@@ -37,10 +37,10 @@ public partial class MyDefaultPage : ContentPage
             return;
         }
 
-        //decimal precoJusto = _fundamentusAppService.CalcularPrecoJusto(result.Pl, result.CrescRec5a, result.Cotacao);
-        //decimal precoTeto = _fundamentusAppService.CalcularPrecoTeto(result.Cotacao, result.DivYield);
+        decimal precoJusto = _fundamentusAppService.CalculateFairPrice(result.NetIncome, result.ShareholdersEquity, result.NumberOfShares);
+        decimal precoTeto = _fundamentusAppService.CalculateMaximumPrice(result.DividendYield, result.CurrentPrice);
 
-        var viewModel = result.ToFundamentusDetailsViewModel(0, 0);
+        var viewModel = result.ToFundamentusDetailsViewModel(precoJusto, precoTeto);
         await Shell.Current.Navigation.PushAsync(new FundamentusDetailsPage(viewModel));
     }
 }
