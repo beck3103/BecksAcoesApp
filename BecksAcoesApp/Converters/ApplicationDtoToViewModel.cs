@@ -25,13 +25,9 @@ internal static class ApplicationDtoToViewModel
             PrecoSobreAtivoCirculanteLiquido = fundamentusDto.PriceToNetTangibleAssets,
             EnterpriseValueSobreEbit = fundamentusDto.EVToEBIT,
             EnterpriseValueSobreEbitda = fundamentusDto.EVToEBITDA,
-            MargemEbit = fundamentusDto.EBIT,//Verify
-            LiquidezCorrente = fundamentusDto.EBIT,//Verify
-            RetornoSobreCapitalInvestido = fundamentusDto.EBIT, //Verify
-            RetornoSobrePatrimonioLiquido = fundamentusDto.EBIT, //Verify
-            LiquidezMediaDoisMeses = fundamentusDto.EBIT,
-            PatrimonioLiquido = fundamentusDto.ShareholdersEquity,
-            DividaBrutaSobrePatrimonio = fundamentusDto.EBIT,//Verify
+            
+            LiquidezMediaDoisMeses = fundamentusDto.Average2MonthsVolume,
+            PatrimonioLiquido = fundamentusDto.EnterpriseValue,
             CrescimentoReceitaUltimosCincoAnos = fundamentusDto.RevenueGrowth5y,
             PrecoTetoBazin = precoTeto,
             PrecoJustoGraham = precoJusto

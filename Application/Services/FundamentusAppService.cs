@@ -9,20 +9,62 @@ namespace BeckAcoesApp.Application.Services;
 
 public sealed class FundamentusAppService(IFundamentusHttpClient fundamentusHttpClient) : IFundamentusAppService
 {
+    public decimal CalculateFairPrice(string netIncome, string shareholdersEquity, string numberOfShares)
+    {
+        string netIncomeConverted = netIncome.Replace("%", string.Empty).Replace(",", ".").Trim();
+        string shareholdersEquityConverted = shareholdersEquity.Replace("%", string.Empty).Replace(",", ".").Trim();
+        string numberOfSharesConverted = numberOfShares.Replace(',', '.').Trim();
+
+        CultureInfo culture = new CultureInfo("pt-BR");
+
+        if (decimal.TryParse(netIncomeConverted, NumberStyles.Number, culture, out decimal decimalNetIncome) &&
+        decimal.TryParse(shareholdersEquityConverted, NumberStyles.Number, culture, out decimal decimalShareholdersEquity) &&
+        decimal.TryParse(numberOfSharesConverted, NumberStyles.Number, culture, out decimal decimalNumberOfShares) && decimalNumberOfShares > 0)
+        {
+            decimal lpa = decimalNetIncome / decimalNumberOfShares;
+            decimal vpa = decimalShareholdersEquity / decimalNumberOfShares;
+
+            // Graham's formula: Sqrt(22.5 * LPA * VPA)
+            double result = Math.Sqrt(22.5 * (double)lpa * (double)vpa);
+            return (decimal)result;
+        }
+        return 0; // Or throw an exception for invalid data
+    }
+
+    public decimal CalculateMaximumPrice(string dividendYield, string currentPrice)
+    {
+        CultureInfo culture = new CultureInfo("pt-BR");
+
+        string convertedDividendYield = dividendYield.Replace("%", string.Empty).Trim();
+        string convertedCotacao = currentPrice.Replace("%", string.Empty).Trim();
+
+        if (decimal.TryParse(convertedDividendYield, NumberStyles.Number, culture, out decimal decimalDividendYield) &&
+            decimal.TryParse(convertedCotacao, NumberStyles.Number, culture, out decimal decimalCurrentPrice))
+        {
+            // Convert the percentage to its decimal equivalent.
+            decimal dividendYieldDecimal = decimalDividendYield / 100M;
+            decimal valuePerShare = decimalCurrentPrice * dividendYieldDecimal;
+            // Bazin's method uses a minimum expected return of 6% (0.06).
+            return valuePerShare / 0.06M;
+        }
+        return 0;
+    }
+
     // Example method to get data from Fundamentus
     public async Task<FundamentusDto?> GetFundamentusDataAsync(string ticket)
     {
         //I'm getting the HTML because the API doesn't allow me to get the data directly in JSON format.
+        //It is a paid API and I don't want to pay for it now.
         var resultHTML = await fundamentusHttpClient.GetFundamentusDataAsync(ticket);
 
         HtmlDocument page = new();
         page.LoadHtml(resultHTML);
 
         var details = GetTableByLabel(page, ticket);//where i can get the name...
-        var marketValue = GetTableByLabel(page, "Valor de mercado");//It is fixed because i get if from the html label...
-        var valuation = GetTableByLabel(page, "Indicadores fundamentalistas");//It is fixed because i get if from the html label...
-        var patrimony = GetTableByLabel(page, "Dados Balanço Patrimonial");//It is fixed because i get if from the html label...
-        var profits = GetTableByLabel(page, "Lucro Líquido");//It is fixed because i get if from the html label...
+        var marketValue = GetTableByLabel(page, "Valor de mercado");//It is fixed because i get it from the html label...
+        var valuation = GetTableByLabel(page, "Indicadores fundamentalistas");//It is fixed because i get it from the html label...
+        var patrimony = GetTableByLabel(page, "Dados Balanço Patrimonial");//It is fixed because i get it from the html label...
+        var profits = GetTableByLabel(page, "Lucro Líquido");//It is fixed because i get it from the html label...
 
         var allData = details
             .Concat(marketValue)
@@ -99,54 +141,5 @@ public sealed class FundamentusAppService(IFundamentusHttpClient fundamentusHttp
 
         // If no table with the specified label was found, return an empty dictionary.
         return [];
-    }
-
-    public decimal CalcularPrecoTeto(string cotacao, string dividendYield)
-    {
-        string dividendYieldSemPorcentagem = dividendYield.Replace("%", string.Empty).Replace(",", ".").Trim();
-        string cotacaoSemVirgula = cotacao.Replace(',', '.').Trim();
-
-        if (!decimal.TryParse(dividendYieldSemPorcentagem, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal decimalDividendYield))
-            return 0;
-
-        if (!decimal.TryParse(cotacaoSemVirgula, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal decimalCotacao))
-            return 0;
-
-        decimal dividendoPorAcao = decimalCotacao * (decimalDividendYield / 100m);
-
-        if (dividendoPorAcao <= 0)
-            return 0.0m;
-
-        return Math.Round(dividendoPorAcao / 0.06m, 2); //Preço teto de Bazin é o dividendo por ação dividido por 6% (0.06)
-    }
-
-    public decimal CalcularPrecoJusto(string precoSobreLucro, string crescimentoReceitaUltimosCincoAnos, string cotacao)
-    {
-        string precoSobreLucroSemPorcentagem = precoSobreLucro.Replace("%", string.Empty).Replace(",", ".").Trim();
-        string crescimentoReceitaUltimosCincoAnosSemPorcentagem = crescimentoReceitaUltimosCincoAnos.Replace("%", string.Empty).Replace(",", ".").Trim();
-        string cotacaoSemVirgula = cotacao.Replace(',', '.').Trim();
-
-        if (!decimal.TryParse(precoSobreLucroSemPorcentagem, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal decimalPrecoSobreLucro))
-            return 0;
-
-        if (!decimal.TryParse(crescimentoReceitaUltimosCincoAnosSemPorcentagem, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal decimalCrescimentoReceitaUltimosCincoAnos))
-            return 0;
-
-        if (!decimal.TryParse(cotacaoSemVirgula, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal decimalCotacao))
-            return 0;
-
-        // O preço sobre o lucro (P/L) não pode ser zero
-        if (decimalPrecoSobreLucro == 0)
-            return 0.0m;
-
-        // Calcula o Lucro por Ação (LPA)
-        decimal lucroPorAcao = decimalCotacao / decimalPrecoSobreLucro;
-
-        // A fórmula de Graham usa a taxa de crescimento anual. O seu objeto tem o crescimento da receita.
-        // Aqui, usamos essa propriedade como a "taxa de crescimento".
-        // A fórmula usa um multiplicador de 7 e um fator de segurança de 1.5.
-        decimal precoJusto = lucroPorAcao * (7m + decimalCrescimentoReceitaUltimosCincoAnos) * 1.5m;
-
-        return Math.Round(precoJusto, 2);
     }
 }
