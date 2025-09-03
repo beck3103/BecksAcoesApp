@@ -14,6 +14,9 @@ internal static class ApplicationDtoToViewModel
         return new FundamentusDetailsViewModel
         {
             Papel = fundamentusDto.StockSymbol,
+            NomeDaEmpresa = fundamentusDto.CompanyName,
+            Setor = fundamentusDto.Sector,
+            SubSetor = fundamentusDto.Subsector,
             CotacaoAtual = decimal.TryParse(normalizedValue, CultureInfo.InvariantCulture, out var cotacao) ? cotacao : 0,
             DividendYield = fundamentusDto.DividendYield,
             PrecoSobreLucro = fundamentusDto.PriceToEarnings,
@@ -25,9 +28,11 @@ internal static class ApplicationDtoToViewModel
             PrecoSobreAtivoCirculanteLiquido = fundamentusDto.PriceToNetTangibleAssets,
             EnterpriseValueSobreEbit = fundamentusDto.EVToEBIT,
             EnterpriseValueSobreEbitda = fundamentusDto.EVToEBITDA,
-            
+            DataUltimaAtualizacao = fundamentusDto.LastUpdatedDate,
             LiquidezMediaDoisMeses = fundamentusDto.Average2MonthsVolume,
             PatrimonioLiquido = fundamentusDto.EnterpriseValue,
+            LucroLiquido = fundamentusDto.NetIncome,
+            QuantidadeDeAcoes = fundamentusDto.NumberOfShares,
             CrescimentoReceitaUltimosCincoAnos = fundamentusDto.RevenueGrowth5y,
             PrecoTetoBazin = precoTeto,
             PrecoJustoGraham = precoJusto
