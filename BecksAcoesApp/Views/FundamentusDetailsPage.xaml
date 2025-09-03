@@ -13,11 +13,14 @@
             <Border BackgroundColor="#333333" Padding="15" Margin="0,10,0,0">
                 <VerticalStackLayout>
                     <Label Text="{Binding Papel}" FontSize="32" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="White" />
+                    <Label Text="{Binding NomeDaEmpresa}" FontSize="20" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="White" />
+                    <Label Text="{Binding Setor, StringFormat='Setor: {0}'}" FontSize="20" HorizontalTextAlignment="Center" TextColor="#A9A9A9" />
                     <Label Text="{Binding CotacaoAtual, StringFormat='Cotação Atual: R$ {0:N2}'}" FontSize="20" HorizontalTextAlignment="Center" TextColor="#A9A9A9" />
+                    <Label Text="{Binding DataUltimaAtualizacao, StringFormat='Data da última atualização: {0}'}" FontSize="20" HorizontalTextAlignment="Center" TextColor="#A9A9A9" />
                 </VerticalStackLayout>
             </Border>
 
-            <Border BackgroundColor="#2A2A2A"  Padding="15">
+            <!--<Border BackgroundColor="#2A2A2A"  Padding="15">
                 <VerticalStackLayout Spacing="10">
                     <Label Text="Indicadores de Preço" FontSize="20" FontAttributes="Bold" TextColor="White" />
                     <BoxView HeightRequest="1" Color="LightGreen" />
@@ -75,19 +78,43 @@
                         <Label Grid.Column="1" Text="{Binding LiquidezCorrente}" HorizontalTextAlignment="End" Grid.Row="2" TextColor="White" />
                     </Grid>
                 </VerticalStackLayout>
-            </Border>
+            </Border>-->
 
             <Border BackgroundColor="#2A2A2A"  Padding="15">
                 <VerticalStackLayout Spacing="10">
-                    <Label Text="Análise de preço" FontSize="20" FontAttributes="Bold" TextColor="White" />
+                    <Label Text="Preço Teto - Décio Bazin(6%)" FontSize="20" FontAttributes="Bold" TextColor="White" />
                     <BoxView HeightRequest="1" Color="LightGreen" />
 
                     <Grid ColumnDefinitions="*, *" ColumnSpacing="10" RowDefinitions="Auto, Auto, Auto">
                         <Label Grid.Column="0" Text="Preço Teto" TextColor="#A9A9A9" />
                         <Label Grid.Column="1" Text="{Binding PrecoTetoBazin, StringFormat='R$ {0:N2}'}" HorizontalTextAlignment="End" TextColor="White" />
 
-                        <Label Grid.Column="0" Text="Preço Justo" Grid.Row="1" TextColor="#A9A9A9" />
-                        <Label Grid.Column="1" Text="{Binding PrecoJustoGraham, StringFormat='R$ {0:N2}'}" HorizontalTextAlignment="End" Grid.Row="1" TextColor="White" />
+                        <Label Grid.Column="0" Text="Dividend Yield:" Grid.Row="1" TextColor="#A9A9A9" />
+                        <Label Grid.Column="1" Text="{Binding DividendYield}" Grid.Row="1" HorizontalTextAlignment="End" TextColor="White" />
+
+                        <Label Grid.Column="0" Text="Cotação:"  Grid.Row="2" TextColor="#A9A9A9" />
+                        <Label Grid.Column="1" Text="{Binding CotacaoAtual}"  Grid.Row="2" HorizontalTextAlignment="End" TextColor="White" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border BackgroundColor="#2A2A2A"  Padding="15">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Preço Justo - Benjamin Graham" FontSize="20" FontAttributes="Bold" TextColor="White" />
+                    <BoxView HeightRequest="1" Color="LightGreen" />
+
+                    <Grid ColumnDefinitions="*, *" ColumnSpacing="10" RowDefinitions="Auto, Auto, Auto, Auto">
+                        <Label Grid.Column="0" Text="Preço Justo"  TextColor="#A9A9A9" />
+                        <Label Grid.Column="1" Text="{Binding PrecoJustoGraham, StringFormat='R$ {0:N2}'}" HorizontalTextAlignment="End" TextColor="White" />
+
+                        <Label Grid.Column="0" Text="Patrimônio líquido" Grid.Row="1" TextColor="#A9A9A9" />
+                        <Label Grid.Column="1" Text="{Binding PatrimonioLiquido, StringFormat='R$ {0:N2}'}" Grid.Row="1" HorizontalTextAlignment="End" TextColor="White" />
+
+                        <Label Grid.Column="0" Text="Lucro líquido" Grid.Row="2" TextColor="#A9A9A9" />
+                        <Label Grid.Column="1" Text="{Binding LucroLiquido, StringFormat='R$ {0:N2}'}" Grid.Row="2" HorizontalTextAlignment="End" TextColor="White" />
+
+                        <Label Grid.Column="0" Text="Quantidade de ações no mercado" Grid.Row="3" TextColor="#A9A9A9" />
+                        <Label Grid.Column="1" Text="{Binding QuantidadeDeAcoes}" Grid.Row="3" HorizontalTextAlignment="End" TextColor="White" />
                     </Grid>
                 </VerticalStackLayout>
             </Border>

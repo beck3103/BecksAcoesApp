@@ -23,7 +23,7 @@ public partial class MyDefaultPage : ContentPage
     {
         var ticket = IbovespaTicket.Text;
 
-        if (string.IsNullOrWhiteSpace(ticket))
+        if (string.IsNullOrWhiteSpace(ticket) || ticket.Length > 10)
         {
             await DisplayAlert("Error", "Ticket invalid", "OK");
             return;
