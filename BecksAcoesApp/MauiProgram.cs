@@ -1,37 +1,35 @@
 ﻿using BeckAcoesApp.Application.Interfaces.Http;
 using Infra;
 using Infra.Http.HttpClients;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace BecksAcoesApp
+namespace BecksAcoesApp;
+
+public static class MauiProgram
 {
-    public static class MauiProgram
+    public static MauiApp CreateMauiApp()
     {
-        public static MauiApp CreateMauiApp()
+        var builder = MauiApp.CreateBuilder();
+
+        builder.Services.RegisterServices();
+
+        builder.Services.AddHttpClient<IFundamentusHttpClient, FundamentusHttpClient>("FundamentusClient", client =>
         {
-            var builder = MauiApp.CreateBuilder();
+            client.BaseAddress = new Uri("https://www.fundamentus.com.br");
+        });
 
-            builder.Services.RegisterServices();
-
-            builder.Services.AddHttpClient<IFundamentusHttpClient, FundamentusHttpClient>("FundamentusClient", client =>
+        builder
+            .UseMauiApp<App>()
+            .ConfigureFonts(fonts =>
             {
-                client.BaseAddress = new Uri("https://www.fundamentus.com.br");
+                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
-            builder
-                .UseMauiApp<App>()
-                .ConfigureFonts(fonts =>
-                {
-                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                });
-
 #if DEBUG
-            builder.Logging.AddDebug();
+        builder.Logging.AddDebug();
 #endif
 
-            return builder.Build();
-        }
+        return builder.Build();
     }
 }

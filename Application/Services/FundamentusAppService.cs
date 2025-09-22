@@ -24,6 +24,10 @@ public sealed class FundamentusAppService(IFundamentusHttpClient fundamentusHttp
             decimal lpa = decimalNetIncome / decimalNumberOfShares;
             decimal vpa = decimalShareholdersEquity / decimalNumberOfShares;
 
+
+            if (lpa <= 0 || vpa <= 0)
+                return 0;
+
             // Graham's formula: Sqrt(22.5 * LPA * VPA)
             double result = Math.Sqrt(22.5 * (double)lpa * (double)vpa);
             return (decimal)result;
