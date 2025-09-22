@@ -21,26 +21,33 @@ public partial class MyDefaultPage : ContentPage
 
     private async void OnButtonClicked(object sender, EventArgs e)
     {
-        var ticket = IbovespaTicket.Text;
-
-        if (string.IsNullOrWhiteSpace(ticket) || ticket.Length > 10)
+        try
         {
-            await DisplayAlert("Error", "Ticket invalid", "OK");
-            return;
+            var ticket = IbovespaTicket.Text;
+
+            if (string.IsNullOrWhiteSpace(ticket) || ticket.Length > 10)
+            {
+                await DisplayAlert("Error", "Ticket invalid", "OK");
+                return;
+            }
+
+            var result = await _fundamentusAppService.GetFundamentusDataAsync(ticket);
+
+            if (result == null)
+            {
+                await DisplayAlert("Error", "Failed to retrieve data", "OK");
+                return;
+            }
+
+            decimal precoJusto = _fundamentusAppService.CalculateFairPrice(result.NetIncome, result.ShareholdersEquity, result.NumberOfShares);
+            decimal precoTeto = _fundamentusAppService.CalculateMaximumPrice(result.DividendYield, result.CurrentPrice);
+
+            var viewModel = result.ToFundamentusDetailsViewModel(precoJusto, precoTeto);
+            await Shell.Current.Navigation.PushAsync(new FundamentusDetailsPage(viewModel));
         }
-
-        var result = await _fundamentusAppService.GetFundamentusDataAsync(ticket);
-
-        if (result == null)
+        catch (Exception ex)
         {
-            await DisplayAlert("Error", "Failed to retrieve data", "OK");
-            return;
+            await DisplayAlert("Error", ex.Message, "OK");
         }
-
-        decimal precoJusto = _fundamentusAppService.CalculateFairPrice(result.NetIncome, result.ShareholdersEquity, result.NumberOfShares);
-        decimal precoTeto = _fundamentusAppService.CalculateMaximumPrice(result.DividendYield, result.CurrentPrice);
-
-        var viewModel = result.ToFundamentusDetailsViewModel(precoJusto, precoTeto);
-        await Shell.Current.Navigation.PushAsync(new FundamentusDetailsPage(viewModel));
     }
 }
